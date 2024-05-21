@@ -1,8 +1,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.GeraiFood" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.GeraiFood" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/oren</item>
+
+        <!-- Primary brand color, used for status bar color   -->
+        <item name="colorPrimaryVariant">@color/oren</item>
     </style>
 
     <style name="Theme.GeraiFood" parent="Base.Theme.GeraiFood" />

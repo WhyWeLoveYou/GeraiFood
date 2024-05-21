@@ -23,7 +23,24 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/oren"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/nav_bot"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Keranjang"
+        android:layout_marginEnd="@dimen/_24sdp"
+        android:layout_marginRight="@dimen/_24sdp"
+        android:layout_marginBottom="@dimen/_90sdp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/keranjang"
+        android:backgroundTint="@color/oren"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/white" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

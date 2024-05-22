@@ -7,7 +7,15 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Makanan"
+        android:textSize="25dp"
+        android:padding="20dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="@dimen/_85sdp"
+        android:id="@+id/recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content" />
 </FrameLayout>

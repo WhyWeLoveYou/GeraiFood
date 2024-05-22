@@ -31,7 +31,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Please Register First."
+                android:text="Silahkan buat akun terlebih dahulu."
                 android:alpha="0.8"/>
             <View
                 android:layout_width="wrap_content"
@@ -41,11 +41,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Tambahkan Gambar"
+                android:id="@+id/addingImage"
                 android:textAlignment="center"
                 android:alpha="0.8"
                 android:textStyle="bold"/>
 
             <ImageButton
+                android:id="@+id/imageButton"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="100dp"
@@ -58,14 +60,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email Address"
+                android:text="Username"
                 android:alpha="0.8"
                 android:textStyle="bold"/>
 
             <EditText
+                android:id="@+id/Username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"/>
+                android:inputType="textPersonName"/>
 
             <View
                 android:layout_width="wrap_content"
@@ -73,11 +76,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Password"
+                android:text="Email"
                 android:alpha="0.8"
                 android:textStyle="bold"/>
 
             <EditText
+                android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress" />
@@ -89,11 +93,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Confirm your Password"
+                android:text="Password"
                 android:alpha="0.8"
                 android:textStyle="bold"/>
 
             <EditText
+                android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress" />
@@ -103,9 +108,10 @@
                 android:layout_height="wrap_content">
 
                 <CheckBox
+                    android:id="@+id/checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Remember me"
+                    android:text="Setuju dengan persyaratan"
                     android:layout_centerVertical="true"
                     android:alpha="0.7"/>
 
@@ -116,13 +122,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="10dp"/>
 
-            <com.google.android.material.button.MaterialButton
+            <Button
+                android:id="@+id/registerB"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="Register"
                 app:cornerRadius="32dp"
-                android:backgroundTint="@color/bgku"/>
+                android:backgroundTint="@color/oren"/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sudah Punya Akun? Login"
+                android:id="@+id/zpindah"
+                android:textAlignment="center"
+                android:alpha="0.8"
+                android:clickable="true"
+                android:textStyle="bold"/>
 
         </LinearLayout>
 

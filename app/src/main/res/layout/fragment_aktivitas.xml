@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Makanan"
+        android:text="Riwayat"
         android:textSize="25dp"
         android:padding="20dp"/>
 

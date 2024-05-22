@@ -1,24 +1,161 @@
 package com.example.geraifood;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
+import android.view.View;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.example.geraifood.databinding.ActivityRegisterPageBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.HashMap;
 
 public class RegisterPage extends AppCompatActivity {
+
+    private ActivityRegisterPageBinding binding;
+    private FirebaseFirestore firestore;
+    private FirebaseAuth auth;
+    private String encodedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_register_page);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        binding = ActivityRegisterPageBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        listener();
+    }
+
+    private void listener() {
+        binding.zpindah.setOnClickListener(v -> {
+            Intent intent = new Intent(RegisterPage.this, LoginPage.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        });
+        binding.imageButton.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            pickImage.launch(intent);
+        });
+        binding.registerB.setOnClickListener(v -> {
+            if (validator()) {
+                showToast("Mohon jangan tekan 2 kali dan tunggu sebentar");
+                signUp();
+            }
         });
     }
+
+    private void signUp() {
+        auth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+        String Nama = binding.Username.getText().toString();
+        String Email = binding.email.getText().toString();
+        String Password = binding.password.getText().toString();
+        auth.createUserWithEmailAndPassword(Email, Password).addOnCompleteListener(task -> {
+            HashMap<String, Object> user = new HashMap<>();
+            user.put("Nama", Nama);
+            user.put("Email", Email);
+            user.put("Password", Password);
+            user.put("Image", encodedImage);
+            firestore.collection("users").document(Email).set(user).addOnCompleteListener(
+                    documentReference -> {
+                        Toast.makeText(this, "Berhasil", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(this, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+            );
+        });
+    }
+
+    private String encodeImage(Bitmap bitmap) {
+        int maxWidth = 300;
+        int maxHeight = 300;
+        int originalWidth = bitmap.getWidth();
+        int originalHeight = bitmap.getHeight();
+        float aspectRatio = (float) originalWidth / originalHeight;
+        int previewW, previewH;
+        if (originalWidth > maxWidth || originalHeight > maxHeight) {
+            if (aspectRatio > 1) {
+
+                previewW = maxWidth;
+                previewH = (int) (maxWidth / aspectRatio);
+            } else {
+                previewH = maxHeight;
+                previewW = (int) (maxHeight * aspectRatio);
+            }
+        } else {
+            previewW = originalWidth;
+            previewH = originalHeight;
+        }
+        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewW, previewH, false);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    if (result.getData() != null) {
+                        Uri imageUri = result.getData().getData();
+                        try {
+                            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+                            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                            binding.imageButton.setImageBitmap(bitmap);
+                            binding.addingImage.setVisibility(View.GONE);
+                            encodedImage = encodeImage(bitmap);
+                        } catch (FileNotFoundException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+            }
+    );
+
+    private Boolean validator() {
+        String Email = binding.email.getText().toString();
+        String Password = binding.password.getText().toString();
+        String Username = binding.Username.getText().toString();
+        if (Password.isEmpty()) {
+            showToast("Password kosong");
+            return false;
+        }
+        if (Username.isEmpty()) {
+            showToast("Username Kosong");
+            return false;
+        }
+        if (Email.isEmpty()) {
+            showToast("Email Kosong");
+            return false;
+        }
+        if (encodedImage == null) {
+            showToast("Gambar Kosong");
+            return false;
+        }
+        if (Password.length() < 6) {
+            showToast("Password kurang dari 6");
+            return false;
+        }
+        return true;
+    }
+
 }

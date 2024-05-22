@@ -45,6 +45,10 @@ public class deskripsi extends AppCompatActivity {
         binding.deskbutton.setOnClickListener(v -> {
             addData();
         });
+        binding.backer.setOnClickListener(v -> {
+            onBackPressed();
+            finish();
+        });
     }
 
     private void getData() {

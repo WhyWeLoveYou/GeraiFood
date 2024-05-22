@@ -67,14 +67,18 @@
                     android:id="@+id/floatingActionButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
                     android:clickable="true"
                     android:focusable="true"
                     app:fabCustomSize="35dp"
-                    android:backgroundTint="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.635"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0"
                     app:srcCompat="@drawable/baseline_photo_camera_24"
-                    tools:ignore="MissingConstraints"
-                    tools:layout_editor_absoluteX="196dp"
-                    tools:layout_editor_absoluteY="52dp" />
+                    tools:ignore="MissingConstraints" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

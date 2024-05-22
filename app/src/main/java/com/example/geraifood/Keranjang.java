@@ -1,7 +1,12 @@
 package com.example.geraifood;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
+import java.time.LocalDateTime; // Import the LocalDateTime class
+import java.time.format.DateTimeFormatter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -14,10 +19,13 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.geraifood.adapter.cartAdapter;
+import com.example.geraifood.data.RiwayatCart;
 import com.example.geraifood.data.itemCart;
 import com.example.geraifood.databinding.ActivityKeranjangBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,9 +39,10 @@ public class Keranjang extends AppCompatActivity implements com.example.geraifoo
     private ActivityKeranjangBinding binding;
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
-
+    private ArrayList<RiwayatCart> riwayatCarts;
     private ArrayList<itemCart> itemCarts;
     private cartAdapter cartAdapter;
+    private String formattedData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +59,52 @@ public class Keranjang extends AppCompatActivity implements com.example.geraifoo
         binding.backa.setOnClickListener(v -> {
             onBackPressed();
             finish();
+        });
+        binding.Keranjang.setOnClickListener(v -> {
+            addData();
+        });
+    }
+
+    private void addData() {
+        firestore = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
+        String uid = auth.getCurrentUser().getUid();
+        firestore.collection("users").document(uid).collection("item").document().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document != null) {
+                        String nama = document.getString("namaMakanan");
+                        String gambar = document.getString("gambar");
+                        String harga = document.getString("harga");
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                            LocalDateTime myDateObj = LocalDateTime.now();
+                            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+                            String formattedDate = myDateObj.format(myFormatObj);
+                        }
+                        RiwayatCart riwayatnya = new RiwayatCart(nama, harga, gambar, formattedData);
+
+                        firestore.collection("users").document(uid).collection("riwayat").document().set(riwayatnya)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(Keranjang.this, "Berhaasil Checkour=t", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(Keranjang.this, "Gagal Checkout", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    } else {
+                        Toast.makeText(Keranjang.this, "Data tidak ada", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(Keranjang.this, "hem", Toast.LENGTH_SHORT).show();
+                }
+            }
         });
     }
 

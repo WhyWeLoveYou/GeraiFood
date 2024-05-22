@@ -46,22 +46,6 @@ public class RegisterPage extends AppCompatActivity {
         binding = ActivityRegisterPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         listener();
-
-        imageView = findViewById(R.id.imageView4);
-        button = findViewById(R.id.floatingActionButton);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ImagePicker.with(RegisterPage.this)
-                        .crop()	    			//Crop image(Optional), Check Customization for more option
-                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
-                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-                        .start();
-            }
-        }); {
-
-        }
     }
 
     @Override
@@ -92,6 +76,18 @@ public class RegisterPage extends AppCompatActivity {
                 signUp();
             }
         });
+        binding.floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ImagePicker.with(RegisterPage.this)
+                        .crop()	    			//Crop image(Optional), Check Customization for more option
+                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                        .start();
+            }
+        }); {
+
+        }
     }
 
     private void signUp() {

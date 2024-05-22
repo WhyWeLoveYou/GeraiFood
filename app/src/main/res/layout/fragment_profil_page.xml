@@ -23,25 +23,17 @@
                 android:layout_height="235dp"
                 android:background="#FF7F3E">
 
-                <ImageButton
-                    android:layout_width="@dimen/_35sdp"
-                    android:layout_height="@dimen/_40sdp"
-                    android:layout_marginTop="@dimen/_16sdp"
-                    android:backgroundTint="@color/oren"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/back"
-                    app:layout_constraintEnd_toStartOf="@+id/textView"
-                    app:layout_constraintHorizontal_bias="0.135"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
                 <ImageView
                     android:id="@+id/imageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/p1_gf"
-                    tools:layout_editor_absoluteX="0dp"
-                    tools:layout_editor_absoluteY="172dp" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView"
+                    app:layout_constraintVertical_bias="1.2" />
 
                 <ImageView
                     android:id="@+id/imageView2"
@@ -132,6 +124,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Tambah Makanan"
+                android:backgroundTint="#FF7F3E"/>
+            <Button
+                android:id="@+id/Logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Log Out"
                 android:backgroundTint="#FF7F3E"/>
 
                 <ProgressBar

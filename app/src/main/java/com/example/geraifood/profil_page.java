@@ -23,6 +23,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class profil_page extends Fragment {
 
     private FragmentProfilPageBinding binding;
@@ -45,6 +48,7 @@ public class profil_page extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         getData();
         listener();
+        firebaseAuth = FirebaseAuth.getInstance();
     }
 
     private void listener() {
@@ -58,6 +62,12 @@ public class profil_page extends Fragment {
             Intent intent = new Intent(requireContext(), DataMakanan.class);
             startActivity(intent);
         });
+        binding.Logout.setOnClickListener(v -> {
+            firebaseAuth.signOut();
+            Intent intent = new Intent(getContext(), LoginPage.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        });
     }
 
 
@@ -68,7 +78,6 @@ public class profil_page extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         String currentUser = firebaseAuth.getCurrentUser().getUid();
-        String emailuser = firebaseAuth.getCurrentUser().getEmail().toLowerCase();
         firestore.collection("users").document(currentUser).update(
                 "Email", email,
                 "Nama", nama,
@@ -127,10 +136,24 @@ public class profil_page extends Fragment {
             showToast("Silahkan masukkan email");
             return false;
         }
+
+        if (!validateEmailAddress(email)) {
+            showToast("Invalid email");
+            return false;
+        }
         if (password.isEmpty()) {
             showToast("Silahkan masukkan password");
             return false;
         }
         return true;
+    }
+
+    public Boolean validateEmailAddress(String emailAddress) {
+        Pattern regexPattern = Pattern.compile("^[(a-zA-Z-0-9-\\_\\+\\.)]+@[(a-z-A-z)]+\\.[(a-zA-z)]{2,3}$");
+        Matcher regMatcher   = regexPattern.matcher(emailAddress);
+        if(regMatcher.matches()) {
+            return true;
+        }
+        return false;
     }
 }

@@ -28,6 +28,8 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RegisterPage extends AppCompatActivity {
 
@@ -66,7 +68,15 @@ public class RegisterPage extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Uri uri = data.getData();
-        imageView.setImageURI(uri);
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(uri);
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            binding.imageView4.setImageBitmap(bitmap);
+            binding.addingImage.setVisibility(View.GONE);
+            encodedImage = encodeImage(bitmap);
+        } catch (Exception e) {
+            Toast.makeText(this, "Hi", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void listener() {
@@ -78,7 +88,7 @@ public class RegisterPage extends AppCompatActivity {
 
         binding.registerB.setOnClickListener(v -> {
             if (validator()) {
-                showToast("Mohon jangan tekan 2 kali dan tunggu sebentar");
+                binding.addingImage.setVisibility(View.VISIBLE);
                 signUp();
             }
         });
@@ -109,25 +119,8 @@ public class RegisterPage extends AppCompatActivity {
     }
 
     private String encodeImage(Bitmap bitmap) {
-        int maxWidth = 300;
-        int maxHeight = 300;
-        int originalWidth = bitmap.getWidth();
-        int originalHeight = bitmap.getHeight();
-        float aspectRatio = (float) originalWidth / originalHeight;
-        int previewW, previewH;
-        if (originalWidth > maxWidth || originalHeight > maxHeight) {
-            if (aspectRatio > 1) {
-
-                previewW = maxWidth;
-                previewH = (int) (maxWidth / aspectRatio);
-            } else {
-                previewH = maxHeight;
-                previewW = (int) (maxHeight * aspectRatio);
-            }
-        } else {
-            previewW = originalWidth;
-            previewH = originalHeight;
-        }
+        int previewW = 150;
+        int previewH = bitmap.getHeight() * previewW / bitmap.getWidth();
         Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewW, previewH, false);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
@@ -138,25 +131,6 @@ public class RegisterPage extends AppCompatActivity {
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
-
-    private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == RESULT_OK) {
-                    if (result.getData() != null) {
-                        Uri imageUri = result.getData().getData();
-                        try {
-                            InputStream inputStream = getContentResolver().openInputStream(imageUri);
-                            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                            binding.addingImage.setVisibility(View.GONE);
-                            encodedImage = encodeImage(bitmap);
-                        } catch (FileNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                }
-            }
-    );
 
     private Boolean validator() {
         String Email = binding.email.getText().toString();
@@ -182,7 +156,20 @@ public class RegisterPage extends AppCompatActivity {
             showToast("Password kurang dari 6");
             return false;
         }
+        if (!validateEmailAddress(Email)) {
+            showToast("Invalid Email");
+            return false;
+        }
         return true;
+    }
+
+    public Boolean validateEmailAddress(String emailAddress) {
+        Pattern regexPattern = Pattern.compile("^[(a-zA-Z-0-9-\\_\\+\\.)]+@[(a-z-A-z)]+\\.[(a-zA-z)]{2,3}$");
+        Matcher regMatcher   = regexPattern.matcher(emailAddress);
+        if(regMatcher.matches()) {
+            return true;
+        }
+        return false;
     }
 
 }

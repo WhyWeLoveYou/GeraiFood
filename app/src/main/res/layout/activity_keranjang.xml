@@ -44,4 +44,17 @@
 
     </RelativeLayout>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Keranjang"
+        android:layout_marginEnd="@dimen/_24sdp"
+        android:layout_marginRight="@dimen/_24sdp"
+        android:layout_marginBottom="@dimen/_90sdp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/cout"
+        android:backgroundTint="@color/oren"
+        android:layout_gravity="bottom|right"
+        app:tint="@color/white" />
+
 </FrameLayout>

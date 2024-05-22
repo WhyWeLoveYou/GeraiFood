@@ -49,7 +49,6 @@ public class Keranjang extends AppCompatActivity implements com.example.geraifoo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         binding = ActivityKeranjangBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         showData();

@@ -127,6 +127,13 @@
                 android:text="Simpan"
                 android:backgroundTint="#FF7F3E"/>
 
+            <Button
+                android:id="@+id/buttonTambah"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tambah Makanan"
+                android:backgroundTint="#FF7F3E"/>
+
                 <ProgressBar
                     android:visibility="gone"
                     android:id="@+id/progressB"

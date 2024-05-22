@@ -1,5 +1,6 @@
 package com.example.geraifood;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.geraifood.databinding.FragmentProfilPageBinding;
+import com.example.geraifood.hm.DataMakanan;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,6 +53,10 @@ public class profil_page extends Fragment {
                 binding.progressB.setVisibility(View.VISIBLE);
                 updateData();
             }
+        });
+        binding.buttonTambah.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), DataMakanan.class);
+            startActivity(intent);
         });
     }
 

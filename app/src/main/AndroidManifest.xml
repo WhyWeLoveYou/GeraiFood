@@ -21,6 +21,9 @@
         <activity
             android:name="com.example.geraifood.MainActivity"
             android:exported="false" />
+        <activity android:name=".hm.DataMakanan"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
         <activity android:name="com.example.geraifood.Keranjang"
             android:exported="false" />
         <activity

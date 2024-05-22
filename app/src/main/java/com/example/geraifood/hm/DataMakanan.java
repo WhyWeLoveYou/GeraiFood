@@ -1,4 +1,4 @@
-package com.example.geraifood;
+package com.example.geraifood.hm;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,18 +8,17 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.geraifood.LoginPage;
+import com.example.geraifood.MainActivity;
+import com.example.geraifood.data.itemMakanan;
 import com.example.geraifood.databinding.ActivityRegisterPageBinding;
-import com.github.dhaval2404.imagepicker.ImagePicker;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.geraifood.databinding.ActivitymakanantambahBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -27,84 +26,48 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Objects;
 
-public class RegisterPage extends AppCompatActivity {
+public class DataMakanan extends AppCompatActivity {
 
-    private ActivityRegisterPageBinding binding;
+    private ActivitymakanantambahBinding binding;
     private FirebaseFirestore firestore;
     private FirebaseAuth auth;
     private String encodedImage;
-    ImageView imageView;
-    FloatingActionButton button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityRegisterPageBinding.inflate(getLayoutInflater());
+        binding = ActivitymakanantambahBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         listener();
-
-        imageView = findViewById(R.id.imageView4);
-        button = findViewById(R.id.floatingActionButton);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ImagePicker.with(RegisterPage.this)
-                        .crop()	    			//Crop image(Optional), Check Customization for more option
-                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
-                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-                        .start();
-            }
-        }); {
-
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Uri uri = data.getData();
-        imageView.setImageURI(uri);
     }
 
     private void listener() {
         binding.zpindah.setOnClickListener(v -> {
-            Intent intent = new Intent(RegisterPage.this, LoginPage.class);
+            Intent intent = new Intent(DataMakanan.this, LoginPage.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         });
-
+        binding.imageButton.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            pickImage.launch(intent);
+        });
         binding.registerB.setOnClickListener(v -> {
             if (validator()) {
-                showToast("Mohon jangan tekan 2 kali dan tunggu sebentar");
-                signUp();
+                TambahMakanan();
             }
         });
     }
 
-    private void signUp() {
+    private void TambahMakanan() {
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         String Nama = binding.Username.getText().toString();
         String Email = binding.email.getText().toString().toLowerCase();
-        String Password = binding.password.getText().toString();
-        auth.createUserWithEmailAndPassword(Email, Password).addOnCompleteListener(task -> {
-            HashMap<String, Object> user = new HashMap<>();
-            user.put("Nama", Nama);
-            user.put("Email", Email);
-            user.put("Password", Password);
-            user.put("Image", encodedImage);
-            String currentUser = auth.getCurrentUser().getUid();
-            firestore.collection("users").document(currentUser).set(user).addOnCompleteListener(
-                    documentReference -> {
-                        Toast.makeText(this, "Berhasil", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(this, MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                    }
-            );
+        itemMakanan item = new itemMakanan(Nama, Email, encodedImage);
+        firestore.collection("makanan").document(Nama).set(item).addOnSuccessListener(task -> {
+            Toast.makeText(this, "Berhasil", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -148,6 +111,7 @@ public class RegisterPage extends AppCompatActivity {
                         try {
                             InputStream inputStream = getContentResolver().openInputStream(imageUri);
                             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                            binding.imageButton.setImageBitmap(bitmap);
                             binding.addingImage.setVisibility(View.GONE);
                             encodedImage = encodeImage(bitmap);
                         } catch (FileNotFoundException e) {
@@ -160,12 +124,7 @@ public class RegisterPage extends AppCompatActivity {
 
     private Boolean validator() {
         String Email = binding.email.getText().toString();
-        String Password = binding.password.getText().toString();
         String Username = binding.Username.getText().toString();
-        if (Password.isEmpty()) {
-            showToast("Password kosong");
-            return false;
-        }
         if (Username.isEmpty()) {
             showToast("Username Kosong");
             return false;
@@ -176,10 +135,6 @@ public class RegisterPage extends AppCompatActivity {
         }
         if (encodedImage == null) {
             showToast("Gambar Kosong");
-            return false;
-        }
-        if (Password.length() < 6) {
-            showToast("Password kurang dari 6");
             return false;
         }
         return true;

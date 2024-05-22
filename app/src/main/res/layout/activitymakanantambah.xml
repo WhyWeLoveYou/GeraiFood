@@ -5,60 +5,25 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/delivery"
-    tools:context=".LoginPage">
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="400dp"
-        android:background="@drawable/delivery"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/bgku"
-        android:alpha="0.5"/>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="28dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher_foreground" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:text="GeraiFood"
-            android:textColor="@color/white"
-            android:textSize="40dp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
+    tools:context=".hm.DataMakanan">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="550dp"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         app:cardCornerRadius="28dp"
         android:layout_marginBottom="-20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="600dp"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="28dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Welcome!"
+                android:text="Tambah Makanan"
                 android:textColor="@color/bgku"
                 android:textSize="32sp"
                 android:textStyle="bold"/>
@@ -66,8 +31,28 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Enjoy your Activity."
+                android:text="Silahkan buat akun terlebih dahulu."
                 android:alpha="0.8"/>
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tambahkan Gambar"
+                android:id="@+id/addingImage"
+                android:textAlignment="center"
+                android:alpha="0.8"
+                android:textStyle="bold"/>
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginLeft="100dp"
+                android:src="@drawable/delivery"
+                android:textAlignment="center" />
 
             <View
                 android:layout_width="wrap_content"
@@ -75,7 +60,23 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email Address"
+                android:text="Nama Makanan"
+                android:alpha="0.8"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/Username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"/>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Harga"
                 android:alpha="0.8"
                 android:textStyle="bold"/>
 
@@ -83,74 +84,45 @@
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"/>
+                android:inputType="number" />
 
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Password"
-                android:alpha="0.8"
-                android:textStyle="bold"/>
+                android:layout_height="20dp"/>
 
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword" />
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Forgot password?"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"/>
-
-
-            </RelativeLayout>
 
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="10dp"/>
 
-            <com.google.android.material.button.MaterialButton
+            <Button
+                android:id="@+id/registerB"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:text="Login"
-                android:id="@+id/buttonLogin"
+                android:text="Tambah"
                 app:cornerRadius="32dp"
-                android:backgroundTint="@color/bgku"/>
+                android:backgroundTint="@color/oren"/>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:id="@+id/ButtonRegister"
-                android:text="Tidak punya akun? Buat dulu!"
+                android:layout_height="wrap_content"
+                android:text="Sudah Punya Akun? Login"
+                android:id="@+id/zpindah"
                 android:textAlignment="center"
-                android:clickable="true"
                 android:alpha="0.8"
-                android:focusable="true" />
-
+                android:clickable="true"
+                android:textStyle="bold"/>
 
         </LinearLayout>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_marginBottom="@dimen/_120sdp"
             android:gravity="center">
 
             <ProgressBar
                 android:id="@+id/progressB"
-                android:visibility="gone"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
                 android:layout_gravity="center" />
@@ -158,6 +130,7 @@
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
+
 
 
 

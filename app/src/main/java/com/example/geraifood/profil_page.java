@@ -87,10 +87,18 @@ public class profil_page extends Fragment {
             firebaseAuth = FirebaseAuth.getInstance();
             firebaseAuth.getCurrentUser().updateEmail(email);
             firebaseAuth.getCurrentUser().updatePassword(password);
+            binding.progressB.setVisibility(View.GONE);
             getData();
+            clearTask();
         }).addOnFailureListener(task -> {
             showToast("Gagal");
         });
+    }
+
+    private void clearTask() {
+        binding.editTextText4.setText("");
+        binding.editTextTextEmailAddress4.setText("");
+        binding.editTextTextPassword4.setText("");
     }
 
 

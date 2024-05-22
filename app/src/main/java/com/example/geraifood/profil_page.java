@@ -71,6 +71,7 @@ public class profil_page extends Fragment {
             binding.progressB.setVisibility(View.GONE);
             firebaseAuth = FirebaseAuth.getInstance();
             firebaseAuth.getCurrentUser().updateEmail(email);
+            firebaseAuth.getCurrentUser().updatePassword(password);
             getData();
         }).addOnFailureListener(task -> {
             showToast("Gagal");

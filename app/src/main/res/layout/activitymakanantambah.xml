@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterPage">
+    tools:context=".hm.DataMakanan">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Buat Akun!"
+                android:text="Tambah Makanan"
                 android:textColor="@color/bgku"
                 android:textSize="32sp"
                 android:textStyle="bold"/>
@@ -60,7 +60,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Username"
+                android:text="Nama Makanan"
                 android:alpha="0.8"
                 android:textStyle="bold"/>
 
@@ -68,7 +68,7 @@
                 android:id="@+id/Username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"/>
+                android:inputType="text"/>
 
             <View
                 android:layout_width="wrap_content"
@@ -76,7 +76,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email"
+                android:text="Harga"
                 android:alpha="0.8"
                 android:textStyle="bold"/>
 
@@ -84,24 +84,12 @@
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress" />
+                android:inputType="number" />
 
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Password"
-                android:alpha="0.8"
-                android:textStyle="bold"/>
-
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress" />
 
             <View
                 android:layout_width="wrap_content"
@@ -111,7 +99,7 @@
                 android:id="@+id/registerB"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:text="Register"
+                android:text="Tambah"
                 app:cornerRadius="32dp"
                 android:backgroundTint="@color/oren"/>
 

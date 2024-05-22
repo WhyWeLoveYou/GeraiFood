@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DeskripsiFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ImageButton
+        android:layout_width="@dimen/_35sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_margin="24dp"
+        android:src="@drawable/back"
+        android:scaleType="fitXY"
+        android:backgroundTint="@color/white"/>
+
+    <TextView
+        android:id="@+id/deskmakanan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Makanan"
+        android:textSize="@dimen/_26sdp"
+        android:padding="@dimen/_20sdp"
+        android:layout_marginLeft="@dimen/_43sdp"/>
+
+    <ImageView
+        android:id="@+id/imageview"
+        android:layout_width="@dimen/_210sdp"
+        android:layout_height="@dimen/_200sdp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/_85sdp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_launcher_background"/>
+
+    <TextView
+        android:id="@+id/deskharga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12000"
+        android:layout_marginTop="@dimen/_28sdp"
+        android:textSize="@dimen/_20sdp"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/deskbutton"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Masukkan Keranjang"
+        android:textSize="@dimen/_13sdp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="@dimen/_7sdp"
+        android:backgroundTint="#FF7F3E"/>
+
+</FrameLayout>

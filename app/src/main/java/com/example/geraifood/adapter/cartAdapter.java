@@ -75,7 +75,7 @@ public class cartAdapter extends RecyclerView.Adapter<cartAdapter.ViewHolder> {
             super(itemView);
             textViewMakanan = itemView.findViewById(R.id.makanan2);
             textViewHarga = itemView.findViewById(R.id.harga2);
-            imageView = itemView.findViewById(R.id.imageView);
+            imageView = itemView.findViewById(R.id.imageviewK);
             Buttom = itemView.findViewById(R.id.hapus);
             auth = FirebaseAuth.getInstance();
             firebaseFirestore = FirebaseFirestore.getInstance();

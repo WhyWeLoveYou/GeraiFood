@@ -58,6 +58,7 @@ public class HomeFragment extends Fragment {
         binding.recyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
 
         homeAdapter = new HomeAdapter(itemMakanans, getContext());
+        binding.recyclerview.setAdapter(homeAdapter);
         firestore.collection("makanan").get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override

@@ -17,7 +17,7 @@
         app:cardCornerRadius="@dimen/_10sdp"
         android:layout_marginLeft="@dimen/_10sdp">
         <ImageView
-            android:id="@+id/imageview"
+            android:id="@+id/imageviewK"
             android:layout_width="@dimen/_80sdp"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.geraifood.R;
 import com.example.geraifood.data.itemMakanan;
+import com.example.geraifood.deskripsi;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -80,7 +81,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
             relativeLayout.setOnClickListener(v -> {
                 itemMakanan item = ItemArrayList.get(getAdapterPosition());
-                Intent val = new Intent(context.getApplicationContext(), null);
+                Intent val = new Intent(context.getApplicationContext(), deskripsi.class);
                 val.putExtra("jeneng", item.getNamaMakanan());
                 context.startActivity(val);
             });

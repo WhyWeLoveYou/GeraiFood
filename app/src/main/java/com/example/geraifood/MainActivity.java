@@ -1,5 +1,6 @@
 package com.example.geraifood;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -42,6 +43,11 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
 
+        });
+
+        binding.Keranjang.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Keranjang.class);
+            startActivity(intent);
         });
 
     }

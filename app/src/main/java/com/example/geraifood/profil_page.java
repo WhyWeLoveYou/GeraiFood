@@ -89,7 +89,6 @@ public class profil_page extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         String email = firebaseAuth.getCurrentUser().getEmail().toLowerCase();
-        Toast.makeText(getContext(), email, Toast.LENGTH_SHORT).show();
         String currentUser = firebaseAuth.getCurrentUser().getUid();
         firestore.collection("users").document(currentUser).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

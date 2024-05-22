@@ -61,11 +61,6 @@ public class DataMakanan extends AppCompatActivity {
     }
 
     private void listener() {
-        binding.zpindah.setOnClickListener(v -> {
-            Intent intent = new Intent(DataMakanan.this, LoginPage.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        });
         binding.floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,6 +75,7 @@ public class DataMakanan extends AppCompatActivity {
         }
         binding.registerB.setOnClickListener(v -> {
             if (validator()) {
+                binding.progressB.setVisibility(View.VISIBLE);
                 TambahMakanan();
             }
         });
@@ -92,6 +88,7 @@ public class DataMakanan extends AppCompatActivity {
         String Email = binding.email.getText().toString().toLowerCase();
         itemMakanan item = new itemMakanan(Nama, Email, encodedImage);
         firestore.collection("makanan").document(Nama).set(item).addOnSuccessListener(task -> {
+            binding.progressB.setVisibility(View.GONE);
             Toast.makeText(this, "Berhasil", Toast.LENGTH_SHORT).show();
         });
     }

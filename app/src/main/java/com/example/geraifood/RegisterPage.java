@@ -72,7 +72,8 @@ public class RegisterPage extends AppCompatActivity {
 
         binding.registerB.setOnClickListener(v -> {
             if (validator()) {
-                binding.addingImage.setVisibility(View.VISIBLE);
+                binding.addingImage.setVisibility(View.GONE);
+                binding.progressB.setVisibility(View.VISIBLE);
                 signUp();
             }
         });
@@ -105,6 +106,7 @@ public class RegisterPage extends AppCompatActivity {
             String currentUser = auth.getCurrentUser().getUid();
             firestore.collection("users").document(currentUser).set(user).addOnCompleteListener(
                     documentReference -> {
+                        binding.progressB.setVisibility(View.GONE);
                         Toast.makeText(this, "Berhasil", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(this, MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

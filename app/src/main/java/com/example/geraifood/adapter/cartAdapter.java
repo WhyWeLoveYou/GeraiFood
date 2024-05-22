@@ -84,7 +84,7 @@ public class cartAdapter extends RecyclerView.Adapter<cartAdapter.ViewHolder> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION && position < cartitemArrayList.size()) {
                     if (auth.getCurrentUser() != null) {
-                        String email = auth.getCurrentUser().getEmail();
+                        String email = auth.getCurrentUser().getUid();
                         String namaMakanannya = cartitemArrayList.get(position).getNamaMakanan();
                         if (namaMakanannya != null) {
                             firebaseFirestore.collection("users").document(email).collection("item").document(namaMakanannya)

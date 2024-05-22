@@ -129,16 +129,6 @@
                 app:cornerRadius="32dp"
                 android:backgroundTint="@color/oren"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Sudah Punya Akun? Login"
-                android:id="@+id/zpindah"
-                android:textAlignment="center"
-                android:alpha="0.8"
-                android:clickable="true"
-                android:textStyle="bold"/>
-
         </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -149,6 +139,7 @@
 
             <ProgressBar
                 android:id="@+id/progressB"
+                android:visibility="gone"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
                 android:layout_gravity="center" />

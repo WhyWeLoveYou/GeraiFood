@@ -29,7 +29,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="" />
+            android:src="@drawable/ic_launcher_foreground" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -80,6 +80,7 @@
                 android:textStyle="bold"/>
 
             <EditText
+                android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"/>
@@ -95,20 +96,14 @@
                 android:textStyle="bold"/>
 
             <EditText
+                android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress" />
+                android:inputType="textPassword" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Remember me"
-                    android:layout_centerVertical="true"
-                    android:alpha="0.7"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -128,22 +123,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="Login"
+                android:id="@+id/buttonLogin"
                 app:cornerRadius="32dp"
                 android:backgroundTint="@color/bgku"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
+                android:id="@+id/ButtonRegister"
                 android:text="Tidak punya akun? Buat dulu!"
                 android:textAlignment="center"
-                android:alpha="0.8"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:text="Register"
-                app:cornerRadius="32dp"
-                android:backgroundTint="@color/bgku"/>
+                android:clickable="true"
+                android:alpha="0.8"
+                android:focusable="true" />
 
 
         </LinearLayout>

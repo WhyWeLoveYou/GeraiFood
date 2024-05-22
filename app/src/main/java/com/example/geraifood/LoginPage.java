@@ -2,6 +2,7 @@ package com.example.geraifood;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -43,7 +44,8 @@ public class LoginPage extends AppCompatActivity {
         });
         binding.buttonLogin.setOnClickListener(v -> {
             if (validator()) {
-                showToast("Mohon jangan tekan 2 kali dan tunggu sebentar");
+                binding.progressB.setVisibility(View.VISIBLE);
+                login();
             }
         });
     }
@@ -59,6 +61,7 @@ public class LoginPage extends AppCompatActivity {
         auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
+                binding.progressB.setVisibility(View.GONE);
                 Intent intent = new Intent(LoginPage.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -66,6 +69,7 @@ public class LoginPage extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                binding.progressB.setVisibility(View.GONE);
                 Toast.makeText(LoginPage.this, "Credensitial tidak valid", Toast.LENGTH_SHORT).show();
             }
         });

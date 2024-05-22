@@ -140,6 +140,23 @@
 
         </LinearLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/_120sdp"
+            android:gravity="center">
+
+            <ProgressBar
+                android:id="@+id/progressB"
+                android:visibility="gone"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_gravity="center" />
+
+        </RelativeLayout>
+
     </androidx.cardview.widget.CardView>
 
 

@@ -117,8 +117,8 @@ public class profil_page extends Fragment {
                         String bytea = documentSnapshot.getString("Image");
                         byte[] bytes = Base64.decode(bytea, Base64.DEFAULT);
                         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                        binding.textView2.setText(documentSnapshot.getString("Email"));
-                        binding.textView3.setText(documentSnapshot.getString("Nama"));
+                        binding.textView2.setText(documentSnapshot.getString("Nama"));
+                        binding.textView3.setText(documentSnapshot.getString("Email"));
                         binding.imageView2.setImageBitmap(bitmap);
                     }
                 }

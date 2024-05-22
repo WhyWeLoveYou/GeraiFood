@@ -32,6 +32,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +63,7 @@ public class Keranjang extends AppCompatActivity implements com.example.geraifoo
             finish();
         });
         binding.Keranjang.setOnClickListener(v -> {
+            binding.progressB.setVisibility(View.VISIBLE);
             addData();
         });
     }
@@ -93,6 +95,24 @@ public class Keranjang extends AppCompatActivity implements com.example.geraifoo
                                     @Override
                                     public void onSuccess(DocumentReference documentReference) {
                                         Toast.makeText(Keranjang.this, "Berhasil", Toast.LENGTH_SHORT).show();
+                                        firestore.collection("users").document(uid).collection("item").get().addOnSuccessListener((querySnapshot) -> {
+                                            WriteBatch batch = firestore.batch();
+                                            for (QueryDocumentSnapshot doc : querySnapshot) {
+                                                batch.delete(doc.getReference());
+                                            }
+
+                                            batch
+                                                    .commit()
+                                                    .addOnSuccessListener((result) -> {
+                                                        showData();
+                                                    })
+                                                    .addOnFailureListener((error) -> {
+                                                        Toast.makeText(Keranjang.this, "Gagal", Toast.LENGTH_SHORT).show();
+                                                    });
+                                        })
+                                                .addOnFailureListener((error) -> {
+                                                    Toast.makeText(Keranjang.this, "Gagal", Toast.LENGTH_SHORT).show();
+                                                });
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {

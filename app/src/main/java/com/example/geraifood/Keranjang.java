@@ -27,8 +27,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -69,40 +71,40 @@ public class Keranjang extends AppCompatActivity implements com.example.geraifoo
         firestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         String uid = auth.getCurrentUser().getUid();
-        firestore.collection("users").document(uid).collection("item").document().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+        firestore.collection("users").document(uid).collection("item").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document != null) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
                         String nama = document.getString("namaMakanan");
                         String gambar = document.getString("gambar");
                         String harga = document.getString("harga");
+
+                        String formattedDate = "";
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                             LocalDateTime myDateObj = LocalDateTime.now();
                             DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-                            String formattedDate = myDateObj.format(myFormatObj);
+                            formattedDate = myDateObj.format(myFormatObj);
                         }
-                        RiwayatCart riwayatnya = new RiwayatCart(nama, harga, gambar, formattedData);
+                        RiwayatCart riwayatnya = new RiwayatCart(nama, harga, gambar, formattedDate);
 
-                        firestore.collection("users").document(uid).collection("riwayat").document().set(riwayatnya)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        firestore.collection("users").document(uid).collection("riwayat").add(riwayatnya)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                     @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Toast.makeText(Keranjang.this, "Berhaasil Checkour=t", Toast.LENGTH_SHORT).show();
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        Toast.makeText(Keranjang.this, "Berhasil", Toast.LENGTH_SHORT).show();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(Keranjang.this, "Gagal Checkout", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(Keranjang.this, "Gagal", Toast.LENGTH_SHORT).show();
                                     }
                                 });
-                    } else {
-                        Toast.makeText(Keranjang.this, "Data tidak ada", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(Keranjang.this, "hem", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Keranjang.this, "Gagal", Toast.LENGTH_SHORT).show();
                 }
             }
         });

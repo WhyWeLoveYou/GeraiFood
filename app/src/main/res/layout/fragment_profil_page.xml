@@ -7,12 +7,6 @@
     android:background="#F2F1F6"
     tools:context=".profil_page">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="-16dp"
-        tools:layout_editor_absoluteY="0dp">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,9 +69,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Ganti Informasi"
-                android:layout_marginTop="20sp"
+                android:layout_marginTop="30sp"
                 android:textSize="24sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:layout_marginStart="15dp"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
 
             <EditText
                 android:id="@+id/editTextText4"
@@ -86,6 +85,7 @@
                 android:ems="10"
                 android:inputType="text"
                 android:hint="Nama"
+                android:layout_marginHorizontal="50dp"
                 android:layout_marginTop="20sp"/>
 
             <EditText
@@ -94,7 +94,8 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textEmailAddress"
-                android:hint="Email"/>
+                android:hint="Email"
+                android:layout_marginHorizontal="50dp"/>
 
             <EditText
                 android:id="@+id/editTextTextPassword4"
@@ -102,16 +103,16 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPassword"
-                android:hint="Password"/>
+                android:hint="Password"
+                android:layout_marginHorizontal="50dp"/>
 
             <Button
                 android:id="@+id/button"
-                android:layout_width="match_parent"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:backgroundTint="#FF7F3E"
                 android:text="Simpan"
-                android:backgroundTint="#FF7F3E"/>
-
+                android:layout_gravity="center"/>
 
         </LinearLayout>
-    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

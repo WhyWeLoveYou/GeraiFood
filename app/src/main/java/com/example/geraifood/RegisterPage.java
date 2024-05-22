@@ -8,13 +8,18 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.geraifood.databinding.ActivityRegisterPageBinding;
+import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -22,6 +27,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class RegisterPage extends AppCompatActivity {
 
@@ -29,6 +35,8 @@ public class RegisterPage extends AppCompatActivity {
     private FirebaseFirestore firestore;
     private FirebaseAuth auth;
     private String encodedImage;
+    ImageView imageView;
+    FloatingActionButton button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +44,29 @@ public class RegisterPage extends AppCompatActivity {
         binding = ActivityRegisterPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         listener();
+
+        imageView = findViewById(R.id.imageView4);
+        button = findViewById(R.id.floatingActionButton);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ImagePicker.with(RegisterPage.this)
+                        .crop()	    			//Crop image(Optional), Check Customization for more option
+                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                        .start();
+            }
+        }); {
+
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Uri uri = data.getData();
+        imageView.setImageURI(uri);
     }
 
     private void listener() {
@@ -44,11 +75,7 @@ public class RegisterPage extends AppCompatActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         });
-        binding.imageButton.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            pickImage.launch(intent);
-        });
+
         binding.registerB.setOnClickListener(v -> {
             if (validator()) {
                 showToast("Mohon jangan tekan 2 kali dan tunggu sebentar");
@@ -120,7 +147,6 @@ public class RegisterPage extends AppCompatActivity {
                         try {
                             InputStream inputStream = getContentResolver().openInputStream(imageUri);
                             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                            binding.imageButton.setImageBitmap(bitmap);
                             binding.addingImage.setVisibility(View.GONE);
                             encodedImage = encodeImage(bitmap);
                         } catch (FileNotFoundException e) {

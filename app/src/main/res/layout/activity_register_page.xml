@@ -26,59 +26,85 @@
                 android:text="Buat Akun!"
                 android:textColor="@color/bgku"
                 android:textSize="32sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Silahkan buat akun terlebih dahulu."
-                android:alpha="0.8"/>
+                android:alpha="0.8"
+                android:text="Silahkan buat akun terlebih dahulu." />
+
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"/>
+                android:layout_height="30dp" />
 
             <TextView
+                android:id="@+id/addingImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tambahkan Gambar"
-                android:id="@+id/addingImage"
-                android:textAlignment="center"
                 android:alpha="0.8"
-                android:textStyle="bold"/>
+                android:text="Tambahkan Gambar"
+                android:textAlignment="center"
+                android:textStyle="bold" />
 
-            <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_marginLeft="100dp"
-                android:src="@drawable/delivery"
-                android:textAlignment="center" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@color/oren"
+                    app:shapeAppearanceOverlay="@style/cicular"
+                    app:srcCompat="@drawable/baseline_person_24"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/floatingActionButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:fabCustomSize="35dp"
+                    android:backgroundTint="@color/white"
+                    app:srcCompat="@drawable/baseline_photo_camera_24"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteX="196dp"
+                    tools:layout_editor_absoluteY="52dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"/>
+                android:layout_height="30dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Username"
                 android:alpha="0.8"
-                android:textStyle="bold"/>
+                android:text="Username"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/Username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"/>
+                android:inputType="textPersonName" />
 
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"/>
+                android:layout_height="20dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email"
                 android:alpha="0.8"
-                android:textStyle="bold"/>
+                android:text="Email"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/email"
@@ -88,14 +114,14 @@
 
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"/>
+                android:layout_height="20dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Password"
                 android:alpha="0.8"
-                android:textStyle="bold"/>
+                android:text="Password"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/password"
@@ -111,34 +137,34 @@
                     android:id="@+id/checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Setuju dengan persyaratan"
                     android:layout_centerVertical="true"
-                    android:alpha="0.7"/>
+                    android:alpha="0.7"
+                    android:text="Setuju dengan persyaratan" />
 
 
             </RelativeLayout>
 
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="10dp"/>
+                android:layout_height="10dp" />
 
             <Button
                 android:id="@+id/registerB"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
+                android:backgroundTint="@color/oren"
                 android:text="Register"
-                app:cornerRadius="32dp"
-                android:backgroundTint="@color/oren"/>
+                app:cornerRadius="32dp" />
 
             <TextView
+                android:id="@+id/zpindah"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sudah Punya Akun? Login"
-                android:id="@+id/zpindah"
-                android:textAlignment="center"
                 android:alpha="0.8"
                 android:clickable="true"
-                android:textStyle="bold"/>
+                android:text="Sudah Punya Akun? Login"
+                android:textAlignment="center"
+                android:textStyle="bold" />
 
         </LinearLayout>
 

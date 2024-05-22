@@ -8,15 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.geraifood.databinding.FragmentDeskripsiBinding;
+
 
 public class DeskripsiFragment extends Fragment {
-
+    private FragmentDeskripsiBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     @Override

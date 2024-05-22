@@ -61,15 +61,16 @@ public class RegisterPage extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         String Nama = binding.Username.getText().toString();
-        String Email = binding.email.getText().toString();
+        String Email = binding.email.getText().toString().toLowerCase();
         String Password = binding.password.getText().toString();
+        String currentUser = auth.getCurrentUser().getUid();
         auth.createUserWithEmailAndPassword(Email, Password).addOnCompleteListener(task -> {
             HashMap<String, Object> user = new HashMap<>();
             user.put("Nama", Nama);
             user.put("Email", Email);
             user.put("Password", Password);
             user.put("Image", encodedImage);
-            firestore.collection("users").document(Email).set(user).addOnCompleteListener(
+            firestore.collection("users").document(currentUser).set(user).addOnCompleteListener(
                     documentReference -> {
                         Toast.makeText(this, "Berhasil", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(this, MainActivity.class);

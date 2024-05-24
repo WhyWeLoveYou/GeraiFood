@@ -18,12 +18,17 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.geraifood.data.itemCart;
 import com.example.geraifood.databinding.ActivityDeskripsiBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Objects;
 import java.util.UUID;
 
 public class deskripsi extends AppCompatActivity {
@@ -90,17 +95,32 @@ public class deskripsi extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         UUID documentd = UUID.randomUUID();
         String documentId = String.valueOf(documentd);
-        itemCart ITEM = new itemCart(NamaMakanan, Harga, Gambar);
+        Object Jumlah = 1;
+        itemCart ITEM = new itemCart(NamaMakanan, Harga, Gambar, Jumlah);
         String uid = firebaseAuth.getCurrentUser().getUid();
 
-        firestore.collection("users").document(uid).collection("item").document(NamaMakanan)
-                .set(ITEM).addOnSuccessListener(task -> {
-                    Toast.makeText(getApplicationContext(), "Berhasil Menambahkan ke Cart", Toast.LENGTH_SHORT).show();
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Fail to add course \n" + e, Toast.LENGTH_SHORT).show();
+        DocumentReference path = firestore.collection("users").document(uid).collection("item").document(NamaMakanan);
+        path.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if (documentSnapshot.exists()) {
+                        path.update("jumlah" , FieldValue.increment(1));
+                    } else {
+                        path.set(ITEM).addOnSuccessListener(task1 -> {
+                            Toast.makeText(getApplicationContext(), "Berhasil Menambahkan ke Cart", Toast.LENGTH_SHORT).show();
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getApplicationContext(), "Gagal \n" + e, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                     }
-                });
+                }
+            }
+        }).addOnFailureListener(task -> {
+            Toast.makeText(this, "Gagal", Toast.LENGTH_SHORT).show();
+        });
     }
 }

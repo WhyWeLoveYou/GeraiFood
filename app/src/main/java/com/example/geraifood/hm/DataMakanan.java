@@ -25,6 +25,8 @@ import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -84,7 +86,7 @@ public class DataMakanan extends AppCompatActivity {
     private void TambahMakanan() {
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
-        String Nama = binding.Username.getText().toString();
+        String Nama = StringUtils.capitalize(binding.Username.getText().toString());
         String Email = binding.email.getText().toString().toLowerCase();
         itemMakanan item = new itemMakanan(Nama, Email, encodedImage);
         firestore.collection("makanan").document(Nama).set(item).addOnSuccessListener(task -> {

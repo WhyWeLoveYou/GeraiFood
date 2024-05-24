@@ -61,7 +61,7 @@ public class AktivitasFragment extends Fragment {
 
         riwayatAdapters = new riwayatAdapter(RiwayatCarrs, getContext());
         binding.recyclerview.setAdapter(riwayatAdapters);
-        firestore.collection("users").document(uid).collection("riwayat").get()
+        firestore.collection("users").document(uid).collection("riwayat").orderBy("tanggal").get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {

@@ -59,7 +59,7 @@ public class HomeFragment extends Fragment {
 
         homeAdapter = new HomeAdapter(itemMakanans, getContext());
         binding.recyclerview.setAdapter(homeAdapter);
-        firestore.collection("makanan").get()
+        firestore.collection("makanan").orderBy("namaMakanan").get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {

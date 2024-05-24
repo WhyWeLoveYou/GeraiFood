@@ -42,6 +42,16 @@
             android:textColor="@color/black"
             android:textSize="@dimen/_15sdp"/>
 
+        <TextView
+            android:id="@+id/jumlah"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_85sdp"
+            android:layout_marginTop="@dimen/_57sdp"
+            android:text="1"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12sdp"/>
+
         <Button
             android:id="@+id/hapus"
             android:layout_width="@dimen/_60sdp"

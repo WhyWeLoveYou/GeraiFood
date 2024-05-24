@@ -3,8 +3,10 @@ package com.example.geraifood;
 import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
+
 import java.time.LocalDateTime; // Import the LocalDateTime class
 import java.time.format.DateTimeFormatter;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +19,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.geraifood.adapter.cartAdapter;
 import com.example.geraifood.data.RiwayatCart;
@@ -46,6 +49,7 @@ public class Keranjang extends AppCompatActivity implements com.example.geraifoo
     private ArrayList<itemCart> itemCarts;
     private cartAdapter cartAdapter;
     private String formattedData;
+    private ArrayList<itemCart> cartitemArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,52 +81,61 @@ public class Keranjang extends AppCompatActivity implements com.example.geraifoo
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        String nama = document.getString("namaMakanan");
-                        String gambar = document.getString("gambar");
-                        String harga = document.getString("harga");
+                    QuerySnapshot result = task.getResult();
+                    if (!result.isEmpty()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String nama = document.getString("namaMakanan");
+                            String gambar = document.getString("gambar");
+                            String harga = document.getString("harga");
 
-                        String formattedDate = "";
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                            LocalDateTime myDateObj = LocalDateTime.now();
-                            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-                            formattedDate = myDateObj.format(myFormatObj);
-                        }
-                        RiwayatCart riwayatnya = new RiwayatCart(nama, harga, gambar, formattedDate);
+                            String formattedDate = "";
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                LocalDateTime myDateObj = LocalDateTime.now();
+                                DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+                                formattedDate = myDateObj.format(myFormatObj);
+                            }
+                            RiwayatCart riwayatnya = new RiwayatCart(nama, harga, gambar, formattedDate);
 
-                        firestore.collection("users").document(uid).collection("riwayat").add(riwayatnya)
-                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                    @Override
-                                    public void onSuccess(DocumentReference documentReference) {
-                                        Toast.makeText(Keranjang.this, "Berhasil", Toast.LENGTH_SHORT).show();
-                                        firestore.collection("users").document(uid).collection("item").get().addOnSuccessListener((querySnapshot) -> {
-                                            WriteBatch batch = firestore.batch();
-                                            for (QueryDocumentSnapshot doc : querySnapshot) {
-                                                batch.delete(doc.getReference());
-                                            }
+                            firestore.collection("users").document(uid).collection("riwayat").add(riwayatnya)
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+                                            Toast.makeText(Keranjang.this, "Berhasil", Toast.LENGTH_SHORT).show();
+                                            firestore.collection("users").document(uid).collection("item").get().addOnSuccessListener((querySnapshot) -> {
+                                                        WriteBatch batch = firestore.batch();
+                                                        binding.progressB.setVisibility(View.GONE);
+                                                        for (QueryDocumentSnapshot doc : querySnapshot) {
+                                                            batch.delete(doc.getReference());
+                                                        }
 
-                                            batch
-                                                    .commit()
-                                                    .addOnSuccessListener((result) -> {
-                                                        showData();
+                                                        batch
+                                                                .commit()
+                                                                .addOnSuccessListener((result) -> {
+                                                                    showData();
+                                                                })
+                                                                .addOnFailureListener((error) -> {
+                                                                    Toast.makeText(Keranjang.this, "Gagal", Toast.LENGTH_SHORT).show();
+                                                                });
                                                     })
                                                     .addOnFailureListener((error) -> {
                                                         Toast.makeText(Keranjang.this, "Gagal", Toast.LENGTH_SHORT).show();
                                                     });
-                                        })
-                                                .addOnFailureListener((error) -> {
-                                                    Toast.makeText(Keranjang.this, "Gagal", Toast.LENGTH_SHORT).show();
-                                                });
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(Keranjang.this, "Gagal", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(Keranjang.this, "Gagal", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }
+                    } else {
+                        binding.progressB.setVisibility(View.GONE);
+                        Toast.makeText(Keranjang.this, "Anda belum memesan apapun", Toast.LENGTH_SHORT).show();
+
                     }
                 } else {
+                    binding.progressB.setVisibility(View.GONE);
                     Toast.makeText(Keranjang.this, "Gagal", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -145,6 +158,7 @@ public class Keranjang extends AppCompatActivity implements com.example.geraifoo
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 binding.progressB.setVisibility(View.GONE);
                 List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                countHarga();
                 for (DocumentSnapshot d : list) {
                     itemCart c = d.toObject(itemCart.class);
                     if (c != null) {
@@ -162,10 +176,44 @@ public class Keranjang extends AppCompatActivity implements com.example.geraifoo
 
     }
 
+    private void countHarga() {
+        firestore = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
+        String uid = auth.getCurrentUser().getUid();
+        binding.progressB.setVisibility(View.VISIBLE);
+        firestore.collection("users").document(uid).collection("item").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                binding.progressB.setVisibility(View.GONE);
+                int totalHarga = 0;
+                String totalhargaa = "0";
+                List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                for (DocumentSnapshot d : list) {
+                    int jumlah = Integer.parseInt(d.get("jumlah").toString());
+                    if (d.get("harga") != null) {
+                        String hargaa = d.get("harga").toString();
+                        int harga = Integer.parseInt(hargaa);
+                        totalHarga += harga * jumlah;
+                        totalhargaa = String.valueOf(totalHarga);
+                    } else {
+                        totalHarga = 0;
+                        totalhargaa = String.valueOf(totalHarga);
+                    }
+                }
+                binding.Hargatotal.setText(totalhargaa);
+            }
+        });
+    }
+
     public void onItemDeleted(int position) {
-        // Remove the item from the dataset and notify the adapter
-        itemCarts.remove(position);
-        cartAdapter.notifyItemRemoved(position);
-        cartAdapter.notifyItemRangeChanged(position, itemCarts.size());
+        if (position != RecyclerView.NO_POSITION && position < itemCarts.size()) {
+            itemCarts.remove(position);
+            cartAdapter.notifyItemRemoved(position);
+            cartAdapter.notifyItemRangeChanged(position, itemCarts.size());
+            countHarga();
+        } else {
+            // Handle invalid position
+            Log.e(TAG, "Invalid position in onItemDeleted");
+        }
     }
 }

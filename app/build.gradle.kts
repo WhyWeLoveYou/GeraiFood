@@ -41,6 +41,7 @@ dependencies {
     implementation ("com.github.dhaval2404:imagepicker:2.1")
     implementation("com.intuit.sdp:sdp-android:1.1.1")
     implementation ("com.intuit.ssp:ssp-android:1.1.1")
+    implementation ("org.apache.commons:commons-lang3:3.14.0")
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.auth)
     testImplementation(libs.junit)

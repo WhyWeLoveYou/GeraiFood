@@ -46,16 +46,31 @@
     </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/Keranjang"
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
         android:layout_marginEnd="@dimen/_24sdp"
         android:layout_marginRight="@dimen/_24sdp"
-        android:layout_marginBottom="@dimen/_90sdp"
+        android:layout_marginBottom="@dimen/_35sdp"
+        android:backgroundTint="@color/oren"
         android:contentDescription="@string/app_name"
         android:src="@drawable/cout"
+        app:tint="@color/white" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/Hargatotal"
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_35sdp"
         android:backgroundTint="@color/oren"
-        android:layout_gravity="bottom|right"
+        android:gravity="left|center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_17ssp"
+        android:contentDescription="@string/app_name"
+        android:text="Abc"
         app:tint="@color/white" />
 
 </FrameLayout>

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,9 +41,13 @@ public class riwayatAdapter extends RecyclerView.Adapter<riwayatAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull riwayatAdapter.ViewHolder holder, int position) {
         RiwayatCart riwayatAdapters = cartitemArrayList.get(position);
+        int waktunya = Integer.parseInt(riwayatAdapters.getHarga().toString());
+        int berhitung = Integer.parseInt(riwayatAdapters.getJumlah().toString());
+        int hasilnya = waktunya * berhitung;
+        holder.textViewHarga.setText(String.valueOf(hasilnya));
         holder.textViewMakanan.setText(riwayatAdapters.getNamaMakanan());
-        holder.textViewHarga.setText(riwayatAdapters.getHarga());
         holder.textViewTanggal.setText(riwayatAdapters.getTanggal());
+        holder.textViewJumlah.setText("Jumlah: " + riwayatAdapters.getJumlah().toString());
         if (riwayatAdapters.getGambar() == null) {
             holder.imageView.setImageResource(R.drawable.ic_launcher_foreground);
         } else {
@@ -63,6 +68,7 @@ public class riwayatAdapter extends RecyclerView.Adapter<riwayatAdapter.ViewHold
         private final TextView textViewHarga;
         private final ImageView imageView;
         private final TextView textViewTanggal;
+        private final TextView textViewJumlah;
 
         private FirebaseFirestore firebaseFirestore;
         private FirebaseAuth auth;
@@ -73,6 +79,7 @@ public class riwayatAdapter extends RecyclerView.Adapter<riwayatAdapter.ViewHold
             textViewHarga = itemView.findViewById(R.id.harga);
             imageView = itemView.findViewById(R.id.imageviewA);
             textViewTanggal = itemView.findViewById(R.id.tanggal);
+            textViewJumlah = itemView.findViewById(R.id.jumlah);
             auth = FirebaseAuth.getInstance();
         }
     }

@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,8 +49,34 @@ public class profil_page extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getData();
+        checkJabatan();
         listener();
         firebaseAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+    }
+
+    private void checkJabatan() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+        String uid = firebaseAuth.getCurrentUser().getUid();
+        firestore.collection("users").document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                binding.progressB.setVisibility(View.GONE);
+                if (task.isSuccessful())
+                {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if (documentSnapshot.exists()) {
+                        String jabatan = documentSnapshot.getString("Jabatan");
+                        if (!jabatan.equals("admin")) {
+                            binding.buttonTambah.setVisibility(View.GONE);
+                        }
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Gagal", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void listener() {
@@ -59,7 +87,7 @@ public class profil_page extends Fragment {
             }
         });
         binding.buttonTambah.setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), DataMakanan.class);
+            Intent intent = new Intent(getContext(), DataMakanan.class);
             startActivity(intent);
         });
         binding.Logout.setOnClickListener(v -> {
@@ -105,7 +133,6 @@ public class profil_page extends Fragment {
     private void getData() {
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
-        String email = firebaseAuth.getCurrentUser().getEmail().toLowerCase();
         String currentUser = firebaseAuth.getCurrentUser().getUid();
         firestore.collection("users").document(currentUser).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

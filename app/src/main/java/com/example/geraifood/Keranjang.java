@@ -89,6 +89,7 @@ public class Keranjang extends AppCompatActivity implements com.example.geraifoo
                             String nama = document.getString("namaMakanan");
                             String gambar = document.getString("gambar");
                             String harga = document.getString("harga");
+                            Object jumlah = document.getLong("jumlah");
 
                             String formattedDate = "";
                             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -96,7 +97,7 @@ public class Keranjang extends AppCompatActivity implements com.example.geraifoo
                                 DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
                                 formattedDate = myDateObj.format(myFormatObj);
                             }
-                            RiwayatCart riwayatnya = new RiwayatCart(nama, harga, gambar, formattedDate);
+                            RiwayatCart riwayatnya = new RiwayatCart(nama, harga, gambar, formattedDate, jumlah);
 
                             firestore.collection("users").document(uid).collection("riwayat").add(riwayatnya)
                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

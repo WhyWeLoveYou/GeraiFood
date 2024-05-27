@@ -13,14 +13,22 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.geraifood.databinding.ActivityLoginPageBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.List;
 
 public class LoginPage extends AppCompatActivity {
     private ActivityLoginPageBinding binding;
     private FirebaseAuth auth;
+    private FirebaseFirestore firestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +63,22 @@ public class LoginPage extends AppCompatActivity {
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+
+//    private void setDirection() {
+//        firestore = FirebaseFirestore.getInstance();
+//        auth = FirebaseAuth.getInstance();
+//        String uid = auth.getCurrentUser().toString();
+//        firestore.collection("users").document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                binding.progressB.setVisibility(View.GONE);
+//                DocumentSnapshot documentSnapshot = task.getResult();
+//                if (documentSnapshot.exists()) {
+//                    String jabatan = documentSnapshot.getString("jabatan");
+//                }
+//            }
+//        });
+//    }
 
     private void login() {
         auth = FirebaseAuth.getInstance();

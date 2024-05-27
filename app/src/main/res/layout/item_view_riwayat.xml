@@ -43,6 +43,17 @@
             android:textSize="@dimen/_15sdp"/>
 
         <TextView
+            android:id="@+id/jumlah"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:gravity="right"
+            android:layout_marginTop="@dimen/_34sdp"
+            android:text="12000"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_15sdp"/>
+
+        <TextView
             android:id="@+id/tanggal"
             android:layout_width="@dimen/_120sdp"
             android:layout_height="wrap_content"

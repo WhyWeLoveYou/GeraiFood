@@ -4,16 +4,18 @@ public class RiwayatCart {
 
 
     private String NamaMakanan, Harga, Gambar, Tanggal;
+    private Object Jumlah;
 
     public RiwayatCart() {
 
     }
 
-    public RiwayatCart(String NamaMakanan, String Harga, String Gambar, String Tanggal) {
+    public RiwayatCart(String NamaMakanan, String Harga, String Gambar, String Tanggal, Object Jumlah) {
         this.NamaMakanan = NamaMakanan;
         this.Harga = Harga;
         this.Gambar = Gambar;
         this.Tanggal = Tanggal;
+        this.Jumlah = Jumlah;
     }
 
     public String getNamaMakanan() {
@@ -41,6 +43,8 @@ public class RiwayatCart {
     }
     public String getTanggal() {return Tanggal;}
     public void setTanggal(String Tanggal) { this.Tanggal = Tanggal;}
+    public Object getJumlah() {return Jumlah;}
+    public void setJumlah(Object Jumlah) {this.Jumlah = Jumlah;}
 }
 
 

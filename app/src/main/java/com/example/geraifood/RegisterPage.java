@@ -103,6 +103,7 @@ public class RegisterPage extends AppCompatActivity {
             user.put("Email", Email);
             user.put("Password", Password);
             user.put("Image", encodedImage);
+            user.put("Jabatan", "user");
             String currentUser = auth.getCurrentUser().getUid();
             firestore.collection("users").document(currentUser).set(user).addOnCompleteListener(
                     documentReference -> {

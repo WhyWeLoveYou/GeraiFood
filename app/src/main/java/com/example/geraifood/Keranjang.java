@@ -40,7 +40,7 @@ import com.google.firebase.firestore.WriteBatch;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Keranjang extends AppCompatActivity implements com.example.geraifood.adapter.cartAdapter.OnItemDeletedListener {
+public class Keranjang extends AppCompatActivity implements com.example.geraifood.adapter.cartAdapter.OnItemDeletedListener, cartAdapter.OnItemChangeListener  {
 
     private ActivityKeranjangBinding binding;
     private FirebaseAuth auth;
@@ -48,6 +48,7 @@ public class Keranjang extends AppCompatActivity implements com.example.geraifoo
     private ArrayList<RiwayatCart> riwayatCarts;
     private ArrayList<itemCart> itemCarts;
     private cartAdapter cartAdapter;
+    private String uid;
     private String formattedData;
     private ArrayList<itemCart> cartitemArrayList;
 
@@ -57,7 +58,9 @@ public class Keranjang extends AppCompatActivity implements com.example.geraifoo
         binding = ActivityKeranjangBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         showData();
-
+        firestore = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
+        uid = auth.getCurrentUser().getUid();
         listener();
     }
 
@@ -75,8 +78,7 @@ public class Keranjang extends AppCompatActivity implements com.example.geraifoo
     private void addData() {
         firestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
-        String uid = auth.getCurrentUser().getUid();
-
+        uid = auth.getCurrentUser().getUid();
         firestore.collection("users").document(uid).collection("item").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -145,13 +147,14 @@ public class Keranjang extends AppCompatActivity implements com.example.geraifoo
     private void showData() {
         firestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
-        String uid = auth.getCurrentUser().getUid();
+        uid = auth.getCurrentUser().getUid();
         itemCarts = new ArrayList<>();
         binding.recyclerview.setHasFixedSize(true);
         binding.recyclerview.setLayoutManager(new LinearLayoutManager(this));
 
         cartAdapter = new cartAdapter(itemCarts, this);
         cartAdapter.setOnItemDeletedListener(this);
+        cartAdapter.setOnItemChangeListener(this);
         binding.recyclerview.setAdapter(cartAdapter);
         firestore.collection("users").document(uid).collection("item").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -179,7 +182,7 @@ public class Keranjang extends AppCompatActivity implements com.example.geraifoo
     private void countHarga() {
         firestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
-        String uid = auth.getCurrentUser().getUid();
+        uid = auth.getCurrentUser().getUid();
         binding.progressB.setVisibility(View.VISIBLE);
         firestore.collection("users").document(uid).collection("item").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -215,5 +218,9 @@ public class Keranjang extends AppCompatActivity implements com.example.geraifoo
             // Handle invalid position
             Log.e(TAG, "Invalid position in onItemDeleted");
         }
+    }
+
+    public void onItemChange() {
+        countHarga();
     }
 }

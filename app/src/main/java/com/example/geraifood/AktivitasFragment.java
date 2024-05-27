@@ -73,8 +73,6 @@ public class AktivitasFragment extends Fragment {
                                 RiwayatCarrs.add(c);
                             }
                             riwayatAdapters.notifyDataSetChanged();
-                        } else {
-                            Toast.makeText(getContext().getApplicationContext(), "No data", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {

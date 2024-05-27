@@ -45,6 +45,8 @@ public class RegisterPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityRegisterPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        auth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
         listener();
     }
 
@@ -92,8 +94,6 @@ public class RegisterPage extends AppCompatActivity {
     }
 
     private void signUp() {
-        auth = FirebaseAuth.getInstance();
-        firestore = FirebaseFirestore.getInstance();
         String Nama = binding.Username.getText().toString();
         String Email = binding.email.getText().toString().toLowerCase();
         String Password = binding.password.getText().toString();
@@ -106,9 +106,14 @@ public class RegisterPage extends AppCompatActivity {
             String currentUser = auth.getCurrentUser().getUid();
             firestore.collection("users").document(currentUser).set(user).addOnCompleteListener(
                     documentReference -> {
+                        auth.getCurrentUser().sendEmailVerification().addOnSuccessListener(task2 -> {
+                            Toast.makeText(this, "Silahkan cek email anda", Toast.LENGTH_SHORT).show();
+                        }).addOnFailureListener(task2 -> {
+                            Toast.makeText(this, "Email gagal dikirim", Toast.LENGTH_SHORT).show();
+                        });
                         binding.progressB.setVisibility(View.GONE);
                         Toast.makeText(this, "Berhasil", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(this, MainActivity.class);
+                        Intent intent = new Intent(this, LoginPage.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     }
@@ -160,6 +165,8 @@ public class RegisterPage extends AppCompatActivity {
         }
         return true;
     }
+
+
 
     public Boolean validateEmailAddress(String emailAddress) {
         Pattern regexPattern = Pattern.compile("^[(a-zA-Z-0-9-\\_\\+\\.)]+@[(a-z-A-z)]+\\.[(a-zA-z)]{2,3}$");

@@ -38,8 +38,7 @@ public class cartAdapter extends RecyclerView.Adapter<cartAdapter.ViewHolder> {
     private ArrayList<itemCart> cartitemArrayList;
     private Context context;
     private OnItemDeletedListener onItemDeletedListener;
-    private FirebaseFirestore firebaseFirestore;
-    private FirebaseAuth auth;
+    private OnItemChangeListener onItemChangeListener;
 
     public cartAdapter(ArrayList<itemCart> coursesArrayList, Context context) {
         this.cartitemArrayList = coursesArrayList;
@@ -132,6 +131,7 @@ public class cartAdapter extends RecyclerView.Adapter<cartAdapter.ViewHolder> {
                                                                             itemCart updatedItem = cartitemArrayList.get(position);
                                                                             updatedItem.setJumlah(Integer.parseInt(updatedItem.getJumlah().toString()) - 1);
                                                                             notifyItemChanged(position);
+                                                                            onItemChangeListener.onItemChange();
                                                                         }
                                                                     }
                                                                 });
@@ -162,9 +162,15 @@ public class cartAdapter extends RecyclerView.Adapter<cartAdapter.ViewHolder> {
         void onItemDeleted(int position);
     }
 
+    public interface OnItemChangeListener {
+        void onItemChange();
+    }
+
     public void setOnItemDeletedListener(OnItemDeletedListener listener) {
         this.onItemDeletedListener = listener;
     }
 
-
+    public void setOnItemChangeListener(OnItemChangeListener listener) {
+        this.onItemChangeListener = listener;
+    }
 }

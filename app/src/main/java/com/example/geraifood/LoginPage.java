@@ -29,9 +29,11 @@ public class LoginPage extends AppCompatActivity {
         setContentView(binding.getRoot());
         auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+            if (auth.getCurrentUser().isEmailVerified()){
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
         }
         listener();
     }
@@ -61,10 +63,15 @@ public class LoginPage extends AppCompatActivity {
         auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-                binding.progressB.setVisibility(View.GONE);
-                Intent intent = new Intent(LoginPage.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                if (!auth.getCurrentUser().isEmailVerified()) {
+                    binding.progressB.setVisibility(View.GONE);
+                    showToast("Silahkan verifikasi email dulu");
+                } else {
+                    binding.progressB.setVisibility(View.GONE);
+                    Intent intent = new Intent(LoginPage.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

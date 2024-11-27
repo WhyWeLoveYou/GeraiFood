@@ -99,7 +99,8 @@ public class cartAdapter extends RecyclerView.Adapter<cartAdapter.ViewHolder> {
                         String email = auth.getCurrentUser().getUid();
                         String namaMakanannya = cartitemArrayList.get(position).getNamaMakanan();
                         if (namaMakanannya != null) {
-                            firebaseFirestore.collection("users").document(email).collection("item").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            firebaseFirestore.collection("users").document(email).
+                                    collection("item").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                 @Override
                                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                     List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();

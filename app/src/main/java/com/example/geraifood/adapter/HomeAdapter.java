@@ -67,6 +67,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         return ItemArrayList.size();
     }
 
+    public void updateList(ArrayList<itemMakanan> filteredList) {
+        this.ItemArrayList = filteredList;
+        notifyDataSetChanged();
+    }
+
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView namaMakanan;
         private final TextView hargamakanan;
